@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Voice App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+        h1, h2 { color: #0056b3; text-align: center; }
+        h3, h4 { margin-top: 20px; color: #0056b3; }
+        .container > div, .container > fieldset { margin-bottom: 15px; padding: 10px; background-color: #fff; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        fieldset { border: 1px solid #ccc; }
+        legend { font-weight: bold; color: #0056b3; padding: 0 5px; }
+        label { margin-right: 10px; font-weight: bold; }
+        select, input[type="file"] { padding: 8px; border-radius: 4px; border: 1px solid #ccc; margin-right: 10px; margin-bottom: 5px; }
+        button { padding: 10px 15px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; margin-top: 5px; margin-right: 5px; }
+        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        button:hover:not(:disabled) { background-color: #0056b3; }
+        textarea { width: 95%; padding: 10px; border-radius: 4px; border: 1px solid #ccc; font-family: monospace; }
+        #status { font-weight: bold; }
+        #fileList { width: 100%; min-height: 80px; border: 1px solid #ccc; border-radius: 4px; }
+        .button-group button { margin-top: 0; }
+        #comparisonResultDisplay p { margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <h1>Voice Application Dashboard</h1>
+    <div class="container">
+
+        <fieldset>
+            <legend>Step 1 & 2: Record Audio & Select Language</legend>
+            <div>
+                <label for="language">Recognition Language:</label>
+                <select id="language">
+                    <option value="en-US" selected>English (US)</option>
+                    <option value="en-GB">English (UK)</option>
+                    <option value="bn-IN">Bengali (India)</option>
+                    <option value="hi-IN">Hindi (India)</option>
+                </select>
+            </div>
+            <div class="button-group">
+                <button id="recordButton">Record Audio</button>
+                <button id="stopButton" disabled>Stop Recording</button>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Step 3: Train Target Voice Profile</legend>
+            <div>
+                <label for="fileList">Select recordings for training:</label>
+                <button id="refreshFilesButton" style="margin-bottom: 5px;">Refresh File List</button>
+                <select id="fileList" multiple size="6"></select>
+            </div>
+            <div class="button-group">
+                <button id="trainButton">Train with Selected Files</button>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Step 4: Recognize / Upload & Compare</legend>
+             <div>
+                <h4>Recognized Text (from recording or upload):</h4>
+                <textarea id="recognizedText" rows="5" readonly placeholder="Recognized text will appear here..."></textarea>
+            </div>
+            <div>
+                <h4>Or Upload Audio File for Recognition (WAV, FLAC, OGG):</h4>
+                <input type="file" id="audioFile" accept=".wav,.flac,.ogg">
+                <button id="uploadButton">Upload and Recognize</button>
+            </div>
+            <hr style="margin-top: 15px; margin-bottom: 10px;">
+            <div class="button-group">
+                <button id="compareButton" disabled>Compare Last Processed Audio to Target</button>
+            </div>
+            <div id="comparisonResultDisplay" style="margin-top: 10px;">
+                <!-- Comparison results will appear here -->
+            </div>
+        </fieldset>
+
+        <div>
+            <p><strong>Status:</strong> <span id="status">Idle. Please follow the steps.</span></p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
